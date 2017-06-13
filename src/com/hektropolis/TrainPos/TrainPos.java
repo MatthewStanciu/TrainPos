@@ -66,15 +66,15 @@ public class TrainPos extends JavaPlugin {
 
     public void setBlocks(String color) {
         for (String key : this.getConfig().getKeys(false)) {
-            double minX = this.getConfig().getDouble("blocks." + key + ".minX");
-            double minY = this.getConfig().getDouble("blocks." + key + ".minY");
-            double minZ = this.getConfig().getDouble("blocks." + key + ".minZ");
+            double minX = this.getConfig().getDouble("boards." + key + ".minX");
+            double minY = this.getConfig().getDouble("boards." + key + ".minY");
+            double minZ = this.getConfig().getDouble("boards." + key + ".minZ");
             //double minX = 535.0;
             //double minY = 31.0;
             //double minZ = 49.0;
-            double maxX = this.getConfig().getDouble("blocks." + key + ".maxX");
-            double maxY = this.getConfig().getDouble("blocks." + key + ".maxY");
-            double maxZ = this.getConfig().getDouble("blocks." + key + ".maxZ");
+            double maxX = this.getConfig().getDouble("boards." + key + ".maxX");
+            double maxY = this.getConfig().getDouble("boards." + key + ".maxY");
+            double maxZ = this.getConfig().getDouble("boards." + key + ".maxZ");
             //double maxX = 535.0;
             //double maxY = 33.0;
             //double maxZ = 55.0;
