@@ -12,6 +12,12 @@ import org.bukkit.entity.Player;
  */
 public class Commands implements CommandExecutor {
 
+    private final TrainPos plugin;
+
+    public Commands(TrainPos plugin) {
+        this.plugin = plugin;
+    }
+
     @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
@@ -22,7 +28,7 @@ public class Commands implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("setboard")) {
-            Selection s =  TrainPos.plugin.we.getSelection(p);
+            Selection s =  plugin.we.getSelection(p);
             if (args.length != 1) {
                 p.sendMessage(ChatColor.RED + "Usage: /setboard <number>");
                 return false;
@@ -30,18 +36,18 @@ public class Commands implements CommandExecutor {
                 if (s == null) {
                     p.sendMessage(ChatColor.RED + "You must define a selection first!");
                     return false;
-                } else if (TrainPos.plugin.getConfig().contains("boards." + args[0])) {
+                } else if (plugin.getConfig().contains("boards." + args[0])) {
                     p.sendMessage(ChatColor.RED + "Board " + args[0] + " already exists!");
                     return false;
                 } else {
-                    TrainPos.config.set("boards." + Integer.parseInt(args[0]) + ".minX", s.getMinimumPoint().getX());
-                    TrainPos.config.set("boards." + Integer.parseInt(args[0]) + ".minY", s.getMinimumPoint().getY());
-                    TrainPos.config.set("boards." + Integer.parseInt(args[0]) + ".minZ", s.getMinimumPoint().getZ());
-                    TrainPos.config.set("boards." + Integer.parseInt(args[0]) + ".maxX", s.getMaximumPoint().getX());
-                    TrainPos.config.set("boards." + Integer.parseInt(args[0]) + ".maxY", s.getMaximumPoint().getY());
-                    TrainPos.config.set("boards." + Integer.parseInt(args[0]) + ".maxZ", s.getMaximumPoint().getZ());
-                    TrainPos.plugin.saveConfig();
-                    TrainPos.plugin.reloadConfig();
+                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".minX", s.getMinimumPoint().getX());
+                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".minY", s.getMinimumPoint().getY());
+                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".minZ", s.getMinimumPoint().getZ());
+                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".maxX", s.getMaximumPoint().getX());
+                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".maxY", s.getMaximumPoint().getY());
+                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".maxZ", s.getMaximumPoint().getZ());
+                    plugin.saveConfig();
+                    plugin.reloadConfig();
                     p.sendMessage(ChatColor.AQUA + "Board " + args[0] + " set.");
                 }
             }
@@ -51,13 +57,13 @@ public class Commands implements CommandExecutor {
             if (args.length != 1) {
                 p.sendMessage(ChatColor.RED + "Usage: /delboard <number>");
                 return false;
-            } else if (!(TrainPos.plugin.getConfig().contains("boards." + args[0]))) {
+            } else if (!(plugin.getConfig().contains("boards." + args[0]))) {
                 p.sendMessage(ChatColor.RED + "Board " + args[0] + " does not exist!");
                 return false;
             } else {
-                TrainPos.plugin.getConfig().set("boards." + Integer.parseInt(args[0]), null);
-                TrainPos.plugin.saveConfig();
-                TrainPos.plugin.reloadConfig();
+                plugin.getConfig().set("boards." + Integer.parseInt(args[0]), null);
+                plugin.saveConfig();
+                plugin.reloadConfig();
                 p.sendMessage(ChatColor.AQUA + "Board " + args[0] + " removed.");
             }
         }
@@ -67,7 +73,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "Usage: /trainpos <color>");
                 return false;
             } else {
-                TrainPos.plugin.setBlocks(args[0]);
+                plugin.setBlocks(args[0]);
             }
         }
 

@@ -6,8 +6,6 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,25 +14,21 @@ import java.util.logging.Logger;
  */
 public class TrainPos extends JavaPlugin {
 
-    public static FileConfiguration config;
-    public static TrainPos plugin;
     Logger log = this.getLogger();
     WorldEditPlugin we = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
 
     public void onEnable() {
-        plugin = this;
-        TrainPos.config = this.getConfig();
 
-        saveDefaultConfig();
-        getConfig().addDefault("boards", null);
-        saveConfig();
-        reloadConfig();
+        this.saveDefaultConfig();
+        this.getConfig().addDefault("boards", null);
+        this.saveConfig();
+        this.reloadConfig();
 
         getWorldEdit();
 
-        getCommand("setboard").setExecutor(new Commands());
-        getCommand("delboard").setExecutor(new Commands());
-        getCommand("trainpos").setExecutor(new Commands());
+        getCommand("setboard").setExecutor(new Commands(this));
+        getCommand("delboard").setExecutor(new Commands(this));
+        getCommand("trainpos").setExecutor(new Commands(this));
     }
 
     public void getWorldEdit() {
@@ -45,47 +39,58 @@ public class TrainPos extends JavaPlugin {
     }
 
     @SuppressWarnings("deprecation") //getData and setData are deprecated but there is no un-deprecated method afaik
+    public void getBlocks(String color, int x, int y, int z) {
+        Block posBlock = getServer().getWorld("hektor_city").getBlockAt(x, y, z);
+        byte data = posBlock.getData();
+
+        switch (color) {
+            case "blue":
+                data = 3;
+                break;
+            case "orange":
+                data = 1;
+                break;
+            case "green":
+                data = 5;
+                break;
+            case "red":
+                data = 14;
+                break;
+            default:
+                log.log(Level.WARNING, "Command sender tried to set a TrainPos block that doesn't exist!");
+                break;
+        }
+        posBlock.setType(Material.STAINED_GLASS);
+        posBlock.setData(data);
+    }
+
     public void setBlocks(String color) {
-        for (String key : getConfig().getKeys(false)) {
-            double minX = getConfig().getDouble("blocks." + key + ".minX");
-            double minY = getConfig().getDouble("blocks." + key + ".minY");
-            double minZ = getConfig().getDouble("blocks." + key + ".minZ");
-            double maxX = getConfig().getDouble("blocks." + key + ".maxX");
-            double maxY = getConfig().getDouble("blocks." + key + ".maxY");
-            double maxZ = getConfig().getDouble("blocks." + key + ".maxZ");
+        for (String key : this.getConfig().getKeys(false)) {
+            double minX = this.getConfig().getDouble("blocks." + key + ".minX");
+            double minY = this.getConfig().getDouble("blocks." + key + ".minY");
+            double minZ = this.getConfig().getDouble("blocks." + key + ".minZ");
+            //double minX = 535.0;
+            //double minY = 31.0;
+            //double minZ = 49.0;
+            double maxX = this.getConfig().getDouble("blocks." + key + ".maxX");
+            double maxY = this.getConfig().getDouble("blocks." + key + ".maxY");
+            double maxZ = this.getConfig().getDouble("blocks." + key + ".maxZ");
+            //double maxX = 535.0;
+            //double maxY = 33.0;
+            //double maxZ = 55.0;
             Location min = new Location(getServer().getWorld("hektor_city"), minX, minY, minZ);
             Location max = new Location(getServer().getWorld("hektor_city"), maxX, maxY, maxZ);
 
-            for (int x = min.getBlockX(); x <= max.getBlockX(); x++) {
+            if (maxX - minX == 0) {
                 for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
                     for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
-                        if (maxX - minX == 0) {
-                            x = (int)minX;
-                        } else if (maxZ - minZ == 0) {
-                            z = (int)minZ;
-                        }
-                        Block posBlock = getServer().getWorld("hektor_city").getBlockAt(x, y, z);
-                        byte data = posBlock.getData();
-
-                        switch (color) {
-                            case "blue":
-                                data = 3;
-                                break;
-                            case "orange":
-                                data = 1;
-                                break;
-                            case "green":
-                                data = 5;
-                                break;
-                            case "red":
-                                data = 14;
-                                break;
-                            default:
-                                log.log(Level.WARNING, "Command sender tried to set a TrainPos block that doesn't exist!");
-                                break;
-                        }
-                        posBlock.setType(Material.STAINED_GLASS);
-                        posBlock.setData(data);
+                        getBlocks(color, (int)minX, y , z);
+                    }
+                }
+            } else if (maxZ - minZ == 0) {
+                for (int x = min.getBlockX(); x <= max.getBlockX(); x++) {
+                    for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
+                        getBlocks(color, x, y, (int)minZ);
                     }
                 }
             }
