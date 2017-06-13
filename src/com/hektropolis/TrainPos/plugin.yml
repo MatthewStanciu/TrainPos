@@ -1,0 +1,25 @@
+name: TrainPos
+author: TechBug2012
+description: Gets the location of the metro
+version: 1.0
+main: com.hektropolis.TrainPos.TrainPos
+depend: [WorldEdit]
+
+commands:
+  setboard:
+    description: Using WorldEdit, sets the boards that will be updated.
+  delboard:
+    description: Deletes a board
+  trainpos:
+    description: Sets the boards to a specified color
+
+permissions:
+  trainpos.setboard:
+    description: Allows player to set boards
+    default: op
+  trainpos.delboard:
+    description: Allows player to delete boards
+    default: op
+  trainpos.trainpos:
+    description: Allows player to set train position
+    default: op

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="TrainPos:jar">
+    <output-path>$USER_HOME$/Downloads</output-path>
+    <root id="archive" name="TrainPos.jar">
+      <element id="module-output" name="TrainPos" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/hektropolis/TrainPos/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/hektropolis/TrainPos/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/hektropolis/TrainPos/TrainPos.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/com/hektropolis/TrainPos/Commands.java" />
+    </root>
+  </artifact>
+</component>
