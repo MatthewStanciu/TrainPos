@@ -2,15 +2,10 @@ package com.hektropolis.TrainPos;
 
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Created by mattbstanciu on 6/12/17.
@@ -72,11 +67,7 @@ public class Commands implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "Usage: /trainpos <color>");
                 return false;
             } else {
-                //TrainPos.plugin.setBlocks(args[0]);
-                //List<Block> blocks = TrainPos.plugin.getBlocks(args[0]);
-                //for (Block b : blocks) {
-                    TrainPos.plugin.getBlocks(args[0]);
-                //}
+                TrainPos.plugin.setBlocks(args[0]);
             }
         }
 

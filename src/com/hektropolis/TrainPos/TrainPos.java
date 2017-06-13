@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,9 +44,8 @@ public class TrainPos extends JavaPlugin {
         }
     }
 
-    @SuppressWarnings("deprecation") //getData and setData are deprecated but there is no un-deprecated method
-    public void getBlocks(String color) {
-        //List<Block> blocks = new ArrayList<>();
+    @SuppressWarnings("deprecation") //getData and setData are deprecated but there is no un-deprecated method afaik
+    public void setBlocks(String color) {
         for (String key : getConfig().getKeys(false)) {
             double minX = getConfig().getDouble("blocks." + key + ".minX");
             double minY = getConfig().getDouble("blocks." + key + ".minY");
@@ -58,21 +56,17 @@ public class TrainPos extends JavaPlugin {
             Location min = new Location(getServer().getWorld("hektor_city"), minX, minY, minZ);
             Location max = new Location(getServer().getWorld("hektor_city"), maxX, maxY, maxZ);
 
-            /*int minBlockX = (loc1.getBlockX() < loc2.getBlockX() ? loc2.getBlockX() : loc1.getBlockX());
-            int maxBlockX = (loc1.getBlockY() > loc2.getBlockX() ? loc2.getBlockX() : loc1.getBlockX());
-            int minBlockY = (loc1.getBlockY() < loc2.getBlockY() ? loc2.getBlockY() : loc1.getBlockY());
-            int maxBlockY = (loc1.getBlockY() > loc2.getBlockY() ? loc2.getBlockY() : loc1.getBlockY());
-            int minBlockZ = (loc1.getBlockX() < loc2.getBlockZ() ? loc2.getBlockZ() : loc1.getBlockZ());
-            int maxBlockZ = (loc1.getBlockX() > loc2.getBlockZ() ? loc2.getBlockZ() : loc1.getBlockZ());*/
-
             for (int x = min.getBlockX(); x <= max.getBlockX(); x++) {
                 for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
                     for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
+                        if (maxX - minX == 0) {
+                            x = (int)minX;
+                        } else if (maxZ - minZ == 0) {
+                            z = (int)minZ;
+                        }
                         Block posBlock = getServer().getWorld("hektor_city").getBlockAt(x, y, z);
                         byte data = posBlock.getData();
-                        //posBlock.setType(Material.STAINED_GLASS);
-                        log.log(Level.WARNING, "got data");
-                        log.log(Level.WARNING, posBlock.toString());
+
                         switch (color) {
                             case "blue":
                                 data = 3;
@@ -88,39 +82,13 @@ public class TrainPos extends JavaPlugin {
                                 break;
                             default:
                                 log.log(Level.WARNING, "Command sender tried to set a TrainPos block that doesn't exist!");
-                                //posBlock.setType(Material.ICE);
                                 break;
                         }
-                        //blocks.add(posBlock);
-                        posBlock.setType(Material.STAINED_GLASS); //maybe it's only setting in the list and not in the game?
+                        posBlock.setType(Material.STAINED_GLASS);
                         posBlock.setData(data);
-                        //b.setData(b.getData());
-                        TrainPos.plugin.log.log(Level.WARNING, "Set data and everything");
-                        TrainPos.plugin.log.log(Level.WARNING, posBlock.toString());
-                        log.log(Level.WARNING, "added block");
-                        log.log(Level.WARNING, posBlock.toString());
                     }
                 }
             }
-
-            /*for (double x = minX; x <= maxX; x++) {
-                for (double y = minY; y <= maxY; y++) {
-                    for (double z = minZ; z <= maxZ; z++) {
-                        Location blockLoc = new Location(getServer().getWorld("hektor_city"), x, y, z);
-                        blocks.add(blockLoc.getBlock());
-                    }
-                }
-            }*/
-            /*for (int i = minBlockX; i <= maxBlockX; i++) {
-                for (int j = minBlockY; j <= maxBlockY; j++) {
-                    for (int k = minBlockZ; k <= maxBlockZ; k++) {
-                        Block block = loc1.getWorld().getBlockAt(i, j, k);
-                        blocks.add(block);
-                    }
-                }
-            }*/
         }
-        //log.log(Level.WARNING, "Got blocks");
-        //return blocks;
     }
 }
