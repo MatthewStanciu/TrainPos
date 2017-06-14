@@ -42,7 +42,7 @@ public class Commands implements CommandExecutor {
                 } else if (plugin.getConfig().contains(args[0])) {
                     sender.sendMessage(ChatColor.RED + "Board " + args[0] + " already exists!");
                     return false;
-                } else {
+                } else { //todo serialize location
                     plugin.getConfig().set(args[0] + ".minX", s.getMinimumPoint().getX());
                     plugin.getConfig().set(args[0] + ".minY", s.getMinimumPoint().getY());
                     plugin.getConfig().set(args[0] + ".minZ", s.getMinimumPoint().getZ());

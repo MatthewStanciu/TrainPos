@@ -18,7 +18,6 @@ public class TrainPos extends JavaPlugin {
 
     public void onEnable() {
         this.saveDefaultConfig();
-        //this.getConfig().addDefault("boards", null);
         this.saveConfig();
         this.reloadConfig();
 
@@ -69,20 +68,14 @@ public class TrainPos extends JavaPlugin {
         }
     }
 
-    public void setBlocks(String color) {
+    public void setBlocks(String color) { //todo serialize location
         for (String key : this.getConfig().getKeys(false)) {
             double minX = this.getConfig().getDouble(key + ".minX");
             double minY = this.getConfig().getDouble(key + ".minY");
             double minZ = this.getConfig().getDouble(key + ".minZ");
-            //double minX = 535.0;
-            //double minY = 31.0;
-            //double minZ = 49.0;
             double maxX = this.getConfig().getDouble(key + ".maxX");
             double maxY = this.getConfig().getDouble(key + ".maxY");
             double maxZ = this.getConfig().getDouble(key + ".maxZ");
-            //double maxX = 535.0;
-            //double maxY = 33.0;
-            //double maxZ = 55.0;
             Location min = new Location(getServer().getWorld("hektor_city"), minX, minY, minZ);
             Location max = new Location(getServer().getWorld("hektor_city"), maxX, maxY, maxZ);
 
