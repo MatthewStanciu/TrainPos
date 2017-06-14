@@ -68,11 +68,11 @@ public class Commands implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("trainpos")) {
-            if (args.length != 1) {
-                sender.sendMessage(ChatColor.RED + "Usage: /trainpos <color>");
+            if (args.length != 2) {
+                sender.sendMessage(ChatColor.RED + "Usage: /trainpos <currentStationColor> <nextStationColor>");
                 return false;
             } else {
-                plugin.setBlocks(args[0]);
+                plugin.setBlocks(args[0], args[1]);
             }
         }
 

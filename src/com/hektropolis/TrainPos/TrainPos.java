@@ -81,7 +81,7 @@ public class TrainPos extends JavaPlugin {
         }
     }
 
-    public void setBlocks(String color) {
+    public void setBlocks(String color1, String color2) {
         for (String key : this.getConfig().getKeys(false)) {
             Location min = deserializeLocation(this.getConfig().getString(key + ".minLoc"));
             Location max = deserializeLocation(this.getConfig().getString(key + ".maxLoc"));
@@ -89,15 +89,19 @@ public class TrainPos extends JavaPlugin {
             if (max.getX() - min.getX() == 0) {
                 for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
                     for (int z = min.getBlockZ(); z <= max.getBlockZ(); z++) {
-                        getBlocks(color, (int)min.getX(), y , z);
+                        getBlocks(color1, (int)min.getX(), y , z);
                     }
                 }
             } else if (max.getZ() - min.getZ() == 0) {
                 for (int x = min.getBlockX(); x <= max.getBlockX(); x++) {
                     for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
-                        getBlocks(color, x, y, (int)min.getZ());
+                        getBlocks(color1, x, y, (int)min.getZ());
                     }
                 }
+            }
+            for (int y = min.getBlockY(); y <= max.getBlockY(); y++) {
+                getBlocks(color2, (int)min.getX(), y, (int)min.getZ());
+                getBlocks(color2,(int)max.getX(), y, (int)max.getZ());
             }
         }
     }
