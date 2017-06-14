@@ -81,16 +81,8 @@ public class TrainPos extends JavaPlugin {
         }
     }
 
-    public void setBlocks(String color) { //todo serialize location
+    public void setBlocks(String color) {
         for (String key : this.getConfig().getKeys(false)) {
-            /*double minX = this.getConfig().getDouble(key + ".minX");
-            double minY = this.getConfig().getDouble(key + ".minY");
-            double minZ = this.getConfig().getDouble(key + ".minZ");
-            double maxX = this.getConfig().getDouble(key + ".maxX");
-            double maxY = this.getConfig().getDouble(key + ".maxY");
-            double maxZ = this.getConfig().getDouble(key + ".maxZ");
-            Location min = new Location(getServer().getWorld("hektor_city"), minX, minY, minZ);
-            Location max = new Location(getServer().getWorld("hektor_city"), maxX, maxY, maxZ);*/
             Location min = deserializeLocation(this.getConfig().getString(key + ".minLoc"));
             Location max = deserializeLocation(this.getConfig().getString(key + ".maxLoc"));
 
