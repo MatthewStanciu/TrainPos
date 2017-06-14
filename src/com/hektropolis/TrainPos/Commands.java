@@ -20,24 +20,27 @@ public class Commands implements CommandExecutor {
 
     @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Player p = (Player) sender;
 
-        if (!(p.hasPermission("trainpos." + cmd.getName()))) {
-            p.sendMessage(ChatColor.RED + "You don't have permission to do this!");
+        if (!(sender.hasPermission("trainpos." + cmd.getName()))) {
+            sender.sendMessage(ChatColor.RED + "You don't have permission to do this!");
             return false;
         }
 
         if (cmd.getName().equalsIgnoreCase("setboard")) {
-            Selection s =  plugin.we.getSelection(p);
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(ChatColor.RED + "Setting boards requires you to be a player!");
+                return false;
+            }
+            Selection s =  plugin.we.getSelection((Player) sender);
             if (args.length != 1) {
-                p.sendMessage(ChatColor.RED + "Usage: /setboard <number>");
+                sender.sendMessage(ChatColor.RED + "Usage: /setboard <number>");
                 return false;
             } else {
                 if (s == null) {
-                    p.sendMessage(ChatColor.RED + "You must define a selection first!");
+                    sender.sendMessage(ChatColor.RED + "You must define a selection first!");
                     return false;
                 } else if (plugin.getConfig().contains(args[0])) {
-                    p.sendMessage(ChatColor.RED + "Board " + args[0] + " already exists!");
+                    sender.sendMessage(ChatColor.RED + "Board " + args[0] + " already exists!");
                     return false;
                 } else {
                     plugin.getConfig().set(args[0] + ".minX", s.getMinimumPoint().getX());
@@ -48,23 +51,23 @@ public class Commands implements CommandExecutor {
                     plugin.getConfig().set(args[0] + ".maxZ", s.getMaximumPoint().getZ());
                     plugin.saveConfig();
                     plugin.reloadConfig();
-                    p.sendMessage(ChatColor.AQUA + "Board " + args[0] + " set.");
+                    sender.sendMessage(ChatColor.AQUA + "Board " + args[0] + " set.");
                 }
             }
         }
 
         if (cmd.getName().equalsIgnoreCase("delboard")) {
             if (args.length != 1) {
-                p.sendMessage(ChatColor.RED + "Usage: /delboard <number>");
+                sender.sendMessage(ChatColor.RED + "Usage: /delboard <number>");
                 return false;
             } else if (!(plugin.getConfig().contains(args[0]))) {
-                p.sendMessage(ChatColor.RED + "Board " + args[0] + " does not exist!");
+                sender.sendMessage(ChatColor.RED + "Board " + args[0] + " does not exist!");
                 return false;
             } else {
                 plugin.getConfig().set(args[0], null);
                 plugin.saveConfig();
                 plugin.reloadConfig();
-                p.sendMessage(ChatColor.AQUA + "Board " + args[0] + " removed.");
+                sender.sendMessage(ChatColor.AQUA + "Board " + args[0] + " removed.");
             }
         }
 
