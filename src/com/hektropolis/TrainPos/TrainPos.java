@@ -3,7 +3,6 @@ package com.hektropolis.TrainPos;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
@@ -18,9 +17,8 @@ public class TrainPos extends JavaPlugin {
     WorldEditPlugin we = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
 
     public void onEnable() {
-
         this.saveDefaultConfig();
-        this.getConfig().addDefault("boards", null);
+        //this.getConfig().addDefault("boards", null);
         this.saveConfig();
         this.reloadConfig();
 
@@ -56,25 +54,32 @@ public class TrainPos extends JavaPlugin {
             case "red":
                 data = 14;
                 break;
+            case "reset":
+                data = 0;
+                break;
             default:
-                log.log(Level.WARNING, "Command sender tried to set a TrainPos block that doesn't exist!");
                 break;
         }
-        posBlock.setType(Material.STAINED_GLASS);
-        posBlock.setData(data);
+
+        if (data != (byte)0) {
+            posBlock.setType(Material.STAINED_GLASS);
+            posBlock.setData(data);
+        } else {
+            posBlock.setType(Material.ICE);
+        }
     }
 
     public void setBlocks(String color) {
         for (String key : this.getConfig().getKeys(false)) {
-            double minX = this.getConfig().getDouble("boards." + key + ".minX");
-            double minY = this.getConfig().getDouble("boards." + key + ".minY");
-            double minZ = this.getConfig().getDouble("boards." + key + ".minZ");
+            double minX = this.getConfig().getDouble(key + ".minX");
+            double minY = this.getConfig().getDouble(key + ".minY");
+            double minZ = this.getConfig().getDouble(key + ".minZ");
             //double minX = 535.0;
             //double minY = 31.0;
             //double minZ = 49.0;
-            double maxX = this.getConfig().getDouble("boards." + key + ".maxX");
-            double maxY = this.getConfig().getDouble("boards." + key + ".maxY");
-            double maxZ = this.getConfig().getDouble("boards." + key + ".maxZ");
+            double maxX = this.getConfig().getDouble(key + ".maxX");
+            double maxY = this.getConfig().getDouble(key + ".maxY");
+            double maxZ = this.getConfig().getDouble(key + ".maxZ");
             //double maxX = 535.0;
             //double maxY = 33.0;
             //double maxZ = 55.0;

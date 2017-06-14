@@ -36,16 +36,16 @@ public class Commands implements CommandExecutor {
                 if (s == null) {
                     p.sendMessage(ChatColor.RED + "You must define a selection first!");
                     return false;
-                } else if (plugin.getConfig().contains("boards." + args[0])) {
+                } else if (plugin.getConfig().contains(args[0])) {
                     p.sendMessage(ChatColor.RED + "Board " + args[0] + " already exists!");
                     return false;
                 } else {
-                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".minX", s.getMinimumPoint().getX());
-                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".minY", s.getMinimumPoint().getY());
-                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".minZ", s.getMinimumPoint().getZ());
-                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".maxX", s.getMaximumPoint().getX());
-                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".maxY", s.getMaximumPoint().getY());
-                    plugin.getConfig().set("boards." + Integer.parseInt(args[0]) + ".maxZ", s.getMaximumPoint().getZ());
+                    plugin.getConfig().set(args[0] + ".minX", s.getMinimumPoint().getX());
+                    plugin.getConfig().set(args[0] + ".minY", s.getMinimumPoint().getY());
+                    plugin.getConfig().set(args[0] + ".minZ", s.getMinimumPoint().getZ());
+                    plugin.getConfig().set(args[0] + ".maxX", s.getMaximumPoint().getX());
+                    plugin.getConfig().set(args[0] + ".maxY", s.getMaximumPoint().getY());
+                    plugin.getConfig().set(args[0] + ".maxZ", s.getMaximumPoint().getZ());
                     plugin.saveConfig();
                     plugin.reloadConfig();
                     p.sendMessage(ChatColor.AQUA + "Board " + args[0] + " set.");
@@ -57,11 +57,11 @@ public class Commands implements CommandExecutor {
             if (args.length != 1) {
                 p.sendMessage(ChatColor.RED + "Usage: /delboard <number>");
                 return false;
-            } else if (!(plugin.getConfig().contains("boards." + args[0]))) {
+            } else if (!(plugin.getConfig().contains(args[0]))) {
                 p.sendMessage(ChatColor.RED + "Board " + args[0] + " does not exist!");
                 return false;
             } else {
-                plugin.getConfig().set("boards." + Integer.parseInt(args[0]), null);
+                plugin.getConfig().set(args[0], null);
                 plugin.saveConfig();
                 plugin.reloadConfig();
                 p.sendMessage(ChatColor.AQUA + "Board " + args[0] + " removed.");
@@ -75,6 +75,11 @@ public class Commands implements CommandExecutor {
             } else {
                 plugin.setBlocks(args[0]);
             }
+        }
+
+        if (cmd.getName().equalsIgnoreCase("trainreload")) {
+            plugin.saveConfig();
+            plugin.reloadConfig();
         }
 
         return true;

@@ -12,6 +12,8 @@ commands:
     description: Deletes a board
   trainpos:
     description: Sets the boards to a specified color
+  trainreload:
+    description: Reloads config
 
 permissions:
   trainpos.setboard:
@@ -22,4 +24,7 @@ permissions:
     default: op
   trainpos.trainpos:
     description: Allows player to set train position
+    default: op
+  trainpos.trainreload:
+    description: Allows player to reload config
     default: op
