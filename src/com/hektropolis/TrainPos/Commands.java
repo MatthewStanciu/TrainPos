@@ -43,12 +43,14 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "Board " + args[0] + " already exists!");
                     return false;
                 } else { //todo serialize location
-                    plugin.getConfig().set(args[0] + ".minX", s.getMinimumPoint().getX());
+                    /*plugin.getConfig().set(args[0] + ".minX", s.getMinimumPoint().getX());
                     plugin.getConfig().set(args[0] + ".minY", s.getMinimumPoint().getY());
                     plugin.getConfig().set(args[0] + ".minZ", s.getMinimumPoint().getZ());
                     plugin.getConfig().set(args[0] + ".maxX", s.getMaximumPoint().getX());
                     plugin.getConfig().set(args[0] + ".maxY", s.getMaximumPoint().getY());
-                    plugin.getConfig().set(args[0] + ".maxZ", s.getMaximumPoint().getZ());
+                    plugin.getConfig().set(args[0] + ".maxZ", s.getMaximumPoint().getZ());*/
+                    plugin.getConfig().set(args[0] + ".minLoc", plugin.serializeLocation(s.getMinimumPoint()));
+                    plugin.getConfig().set(args[0] + ".maxLoc", plugin.serializeLocation(s.getMaximumPoint()));
                     plugin.saveConfig();
                     plugin.reloadConfig();
                     sender.sendMessage(ChatColor.AQUA + "Board " + args[0] + " set.");
